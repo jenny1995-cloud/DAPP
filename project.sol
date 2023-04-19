@@ -1,4 +1,10 @@
 // SPDX-License-Identifier: MIT
+//Author: Jenny Shah, Stuti Desai, Arjav Patel
+//Deployed contract address in Sepolia Testnet: 0xBbEdaaee9a25e134dfDf991A44ECeD35cee56877
+//My Sepolia testnet account address: 0xcd428461B5315A73aB6A9De1A9F2939C7Ac8C84f
+
+
+
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
