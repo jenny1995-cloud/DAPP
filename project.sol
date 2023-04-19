@@ -3,8 +3,6 @@
 //Deployed contract address in Sepolia Testnet: 0x228ca64fD0198b1E8ab743A080cA8Ce2d7239CC1
 //My Sepolia testnet account address: 0xcd428461B5315A73aB6A9De1A9F2939C7Ac8C84f
 
-
-
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
@@ -13,7 +11,6 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 contract RealEstateToken is ERC20 {
     address public owner;
     AggregatorV3Interface internal priceFeed;
-    uint256 public manualPrice;
 
     event TokensBought(address indexed buyer, uint256 amount, uint256 totalPrice);
     event TokensSold(address indexed seller, uint256 amount, uint256 salePrice);
@@ -25,12 +22,7 @@ contract RealEstateToken is ERC20 {
     }
 
     function buyToken(uint256 amount) public payable {
-        uint256 tokenPrice;
-        if (manualPrice > 0) {
-            tokenPrice = manualPrice;
-        } else {
-            tokenPrice = getTokenPrice();
-        }
+        uint256 tokenPrice = getTokenPrice();
         uint256 totalPrice = amount * tokenPrice;
         require(msg.value >= totalPrice, "Insufficient funds");
 
@@ -54,13 +46,6 @@ contract RealEstateToken is ERC20 {
         return uint256(price);
     }
 
-    function setManualPrice(uint256 price) public {
-        require(msg.sender == owner, "Only owner can set manual price");
-        require(price > 0, "Invalid manual price");
-
-        manualPrice = price;
-    }
-
     function withdraw() public {
         require(msg.sender == owner, "Only owner can withdraw");
         uint256 balance = address(this).balance;
@@ -68,5 +53,4 @@ contract RealEstateToken is ERC20 {
 
         payable(msg.sender).transfer(balance);
     }
-
 }
